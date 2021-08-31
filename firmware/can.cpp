@@ -23,7 +23,7 @@ void initCan()
 	canStart(&CAND1, &canConfig500);
 	canStart(&CAND2, &canConfig500);
 
-	toRoof.start(NORMALPRIO + 10);
+	toRoof.start(NORMALPRIO + 11);
 	toCar.start(NORMALPRIO + 10);
 }
 
@@ -76,5 +76,10 @@ void CanThreadToRoof::handle(const CANRxFrame& frame)
 
 void CanThreadToCar::handle(const CANRxFrame& frame)
 {
+	if (frame.EID == 0x172)
+	{
+		// TODO: process roof status message from roof -> dash
+	}
+
 	pass();
 }
