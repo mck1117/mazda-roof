@@ -83,13 +83,13 @@ endif
 #
 
 # Define project name here
-PROJECT = ch
+PROJECT = mazda
 
 # Target settings.
 MCU  = cortex-m4
 
 # Imported source files and paths.
-CHIBIOS  := ./ChibiOS/
+CHIBIOS  := ./chibios
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep

@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Firmware",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/firmware/",
+            "executable": "${workspaceRoot}/firmware/build/mazda.elf",
+            "device": "STM32F405RG",
+            "v1": false,
+            "svdFile": "${workspaceRoot}/firmware/STM32F405.svd",
+            "servertype": "openocd",
+            "configFiles": ["interface/stlink.cfg", "target/stm32f4x.cfg"]
+        }
+    ]
+}
