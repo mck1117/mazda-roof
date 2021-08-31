@@ -1,9 +1,12 @@
 #include "ch.hpp"
 #include "hal.h"
 
-int main() {
+int main()
+{
     halInit();
     chibios_rt::System::init();
+
+
 
     while (1);
 
