@@ -23,7 +23,7 @@ void initCan()
 	canStart(&CAND1, &canConfig500);
 	canStart(&CAND2, &canConfig500);
 
-	toRoof.start(NORMALPRIO + 11);
+	toRoof.start(NORMALPRIO + 10);
 	toCar.start(NORMALPRIO + 10);
 }
 
