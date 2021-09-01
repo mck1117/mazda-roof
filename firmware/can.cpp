@@ -49,22 +49,15 @@ void CanThread::pass()
 {
 	CANTxFrame tx;
 
-	if (m_rxFrame.IDE)
-	{
-		tx.EID = m_rxFrame.EID;
-		tx.IDE = 1;
-	}
-	else
-	{
-		tx.SID = m_rxFrame.SID;
-		tx.IDE = 0;
-	}
+	// Copy frame ID
+	tx.SID = m_rxFrame.SID;
+	tx.IDE = 0;
 
 	uint8_t dlc = m_rxFrame.DLC;
 	tx.DLC = dlc;
 
 	// plop data in place
-	memcpy(&tx.data8[0], &m_rxFrame.data8[0], dlc);
+	memcpy(&tx.data8[0], &m_rxFrame.data8[0], 8);
 
 	canTransmitTimeout(m_to, 0, &tx, TIME_INFINITE);
 }
@@ -76,7 +69,7 @@ void CanThreadToRoof::handle(const CANRxFrame& frame)
 
 void CanThreadToCar::handle(const CANRxFrame& frame)
 {
-	if (frame.EID == 0x172)
+	if (frame.SID == 0x472)
 	{
 		// TODO: process roof status message from roof -> dash
 	}
