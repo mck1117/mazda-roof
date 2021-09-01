@@ -67,6 +67,9 @@ SwitchState SenseSwitch()
         sum += samples[i];
     }
 
+    // Resistor divider = 1.56
+    // Supply voltage = 3.3
+    // Max ADC count = 4096
     constexpr float ratio = 1.56f * 3.3f / (4096 * oversample);
     float volts = ratio * sum;
 
