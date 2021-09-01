@@ -9,7 +9,7 @@ public:
     void main() override;
 
 protected:
-    virtual void handle(const CANRxFrame& frame) = 0;
+    virtual void handle(CANRxFrame& frame) = 0;
 
     void pass();
 
@@ -26,7 +26,7 @@ public:
     CanThreadToRoof() : CanThread(CAND1, CAND2) { }
 
 protected:
-    void handle(const CANRxFrame& frame) override;
+    void handle(CANRxFrame& frame) override;
 };
 
 class CanThreadToCar : public CanThread
@@ -35,5 +35,5 @@ public:
     CanThreadToCar() : CanThread(CAND2, CAND1) { }
 
 protected:
-    void handle(const CANRxFrame& frame) override;
+    void handle(CANRxFrame& frame) override;
 };
