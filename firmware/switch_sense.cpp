@@ -12,7 +12,7 @@ void InitSwitchSense()
 
 #define ADC_SAMPLING_SLOW ADC_SAMPLE_56
 
-static constexpr int oversample = 32;
+static constexpr int oversample = 8;
 
 static constexpr ADCConversionGroup convGroup = {
 	.circular			= FALSE,
