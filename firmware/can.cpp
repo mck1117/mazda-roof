@@ -23,8 +23,8 @@ void InitCan()
     canStart(&CAND1, &canConfig500);
     canStart(&CAND2, &canConfig500);
 
-    toRoof.start(NORMALPRIO + 10);
-    toCar.start(NORMALPRIO + 10);
+    toRoof.start(NORMALPRIO - 6);
+    toCar.start(NORMALPRIO - 5);
 }
 
 CanThread::CanThread(CANDriver& from, CANDriver& to)
