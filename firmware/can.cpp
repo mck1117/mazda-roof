@@ -13,7 +13,7 @@ static const CANConfig canConfig500 =
 CanThreadToRoof toRoof;
 CanThreadToCar toCar;
 
-void initCan()
+void InitCan()
 {
     palSetPadMode(GPIOD, 0, PAL_MODE_ALTERNATE(9));
     palSetPadMode(GPIOD, 1, PAL_MODE_ALTERNATE(9));

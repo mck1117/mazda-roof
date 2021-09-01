@@ -1,14 +1,17 @@
 #include "ch.hpp"
 #include "hal.h"
 
-void initCan();
+#include "switch_sense.h"
+
+void InitCan();
 
 int main()
 {
     halInit();
     chibios_rt::System::init();
 
-    initCan();
+    InitCan();
+    InitSwitchSense();
 
     while (1);
 
