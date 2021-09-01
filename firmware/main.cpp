@@ -18,26 +18,33 @@ int main()
 
     while (1)
     {
-        auto x = SenseSwitch();
+        auto lastSense = SwitchState::Indeterminite;
+        auto currentSense = SwitchState::Indeterminite;
 
-        switch (x)
+        do
+        {
+            chThdSleepMilliseconds(100);
+
+            lastSense = currentSense;
+            currentSense = SenseSwitch();
+        } while (lastSense != currentSense);
+
+        switch (currentSense)
         {
             case SwitchState::Open:
                 palWritePad(GPIOD,  7, 1);
                 palWritePad(GPIOG, 10, 0);
-                chThdSleepMilliseconds(20000);
+                chThdSleepMilliseconds(17000);
                 break;
             case SwitchState::Close:
                 palWritePad(GPIOD,  7, 0);
                 palWritePad(GPIOG, 10, 1);
-                chThdSleepMilliseconds(20000);
+                chThdSleepMilliseconds(17000);
                 break;
             default:
                 palWritePad(GPIOD,  7, 0);
                 palWritePad(GPIOG, 10, 0);
         }
-
-        chThdSleepMilliseconds(100);
     }
 
     return 0;
