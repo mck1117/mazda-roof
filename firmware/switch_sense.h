@@ -4,8 +4,8 @@ void InitSwitchSense();
 
 enum class SwitchState
 {
-    Up,
-    Down,
+    Open,
+    Close,
     None,
     Indeterminite,
 };

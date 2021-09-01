@@ -74,16 +74,16 @@ SwitchState SenseSwitch()
     float volts = ratio * sum;
 
     // 2.7k pullup
-    // roof down = 1k -> 1.351 volts
-    // roof up = 2.2k -> 2.245 volts
+    // roof close = 1k -> 1.351 volts
+    // roof open = 2.2k -> 2.245 volts
 
     if (InRange(1.0f, volts, 1.7f))
     {
-        return SwitchState::Down;
+        return SwitchState::Close;
     }
     else if (InRange(1.8f, volts, 2.5f))
     {
-        return SwitchState::Up;
+        return SwitchState::Open;
     }
     else if (volts > 4.4f)
     {
