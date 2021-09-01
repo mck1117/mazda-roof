@@ -119,7 +119,10 @@ CSRC = $(ALLCSRC) \
 # setting.
 CPPSRC = $(ALLCPPSRC) \
          main.cpp \
-         can.cpp
+         can.cpp \
+         switch_control.cpp \
+         switch_sense.cpp \
+
 
 # List ASM source files here.
 ASMSRC = $(ALLASMSRC)
