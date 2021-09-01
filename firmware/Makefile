@@ -120,7 +120,6 @@ CSRC = $(ALLCSRC) \
 CPPSRC = $(ALLCPPSRC) \
          main.cpp \
          can.cpp \
-         switch_control.cpp \
          switch_sense.cpp \
 
 
