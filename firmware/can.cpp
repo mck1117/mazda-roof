@@ -62,12 +62,27 @@ void CanThread::pass()
 	canTransmitTimeout(m_to, 0, &tx, TIME_INFINITE);
 }
 
-void CanThreadToRoof::handle(const CANRxFrame& frame)
+#define SWAP_UINT16(x) (((x) << 8) | ((x) >> 8))
+
+void CanThreadToRoof::handle(CANRxFrame& frame)
 {
+	if (frame.SID == 0x202)
+	{
+		// vehicle speed is in bytes 2..3, wipe it out
+		uint16_t unswapped = frame.data16[1];
+		uint16_t swapped = SWAP_UINT16(unswapped);
+		auto kph = swapped * 0.01f;
+
+		if (kph < 20)
+		{
+			frame.data16[1] = 0;
+		}
+	}
+
 	pass();
 }
 
-void CanThreadToCar::handle(const CANRxFrame& frame)
+void CanThreadToCar::handle(CANRxFrame& frame)
 {
 	if (frame.SID == 0x472)
 	{
