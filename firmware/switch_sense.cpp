@@ -2,14 +2,6 @@
 
 #include "switch_sense.h"
 
-void InitSwitchSense()
-{
-    // switch sense is on GPIOB9 = ADC ch 9
-    palSetPadMode(GPIOB, 1, PAL_MODE_INPUT_ANALOG);
-
-    adcStart(&ADCD1, nullptr);
-}
-
 #define ADC_SAMPLING_SLOW ADC_SAMPLE_56
 
 static constexpr int oversample = 8;
@@ -56,7 +48,7 @@ bool InRange(float min, float x, float max)
 
 static adcsample_t samples[oversample];
 
-SwitchState SenseSwitch()
+static SwitchState SenseSwitch()
 {
     adcConvert(&ADCD1, &convGroup, samples, oversample);
 
@@ -92,5 +84,72 @@ SwitchState SenseSwitch()
     else
     {
         return SwitchState::Indeterminite;
+    }
+}
+
+class SwitchUpdater : public chibios_rt::BaseStaticThread<256>
+{
+public:
+    void main() override
+    {
+        while (true)
+        {
+            auto lastSense = SwitchState::Indeterminite;
+            auto currentSense = SwitchState::Indeterminite;
+
+            do
+            {
+                chThdSleepMilliseconds(100);
+
+                lastSense = currentSense;
+                currentSense = SenseSwitch();
+            } while (lastSense != currentSense && currentSense != SwitchState::Indeterminite);
+
+            // Only update state when switch has been stable for two consecutive readings
+            m_debouncedState = currentSense;
+        }
+    }
+
+    SwitchState getState() const
+    {
+        return m_debouncedState;
+    }
+
+private:
+    SwitchState m_debouncedState = SwitchState::Indeterminite;
+};
+
+static SwitchUpdater instance;
+
+void InitSwitchSense()
+{
+    // switch sense is on GPIOB9 = ADC ch 9
+    palSetPadMode(GPIOB, 1, PAL_MODE_INPUT_ANALOG);
+
+    adcStart(&ADCD1, nullptr);
+
+    instance.start(NORMALPRIO - 10);
+}
+
+SwitchState GetSwitch()
+{
+    return instance.getState();
+}
+
+void SetSwitch(SwitchState state)
+{
+    switch (state) {
+    case SwitchState::Open:
+        palWritePad(GPIOD,  7, 1);
+        palWritePad(GPIOG, 10, 0);
+        break;
+    case SwitchState::Close:
+        palWritePad(GPIOD,  7, 0);
+        palWritePad(GPIOG, 10, 1);
+        break;
+    default:
+        palWritePad(GPIOD,  7, 0);
+        palWritePad(GPIOG, 10, 0);
+        break;
     }
 }

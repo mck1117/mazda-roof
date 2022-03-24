@@ -10,4 +10,5 @@ enum class SwitchState
     Indeterminite,
 };
 
-SwitchState SenseSwitch();
+SwitchState GetSwitch();
+void SetSwitch(SwitchState state);
